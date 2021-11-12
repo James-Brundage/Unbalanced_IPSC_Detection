@@ -2,7 +2,7 @@
 
 ## Suggested Pipeline
 
-#### Labelling (Currently)
+#### 1. Labelling (Currently)
 
 **Owner:** Hillary/Crew + Other labs
 
@@ -10,21 +10,21 @@ Labelling process by hand in mini analysis. This should give a .csv of each reco
 
 **To do:** Create example files of what things should look like. 
 
-#### Labelling (Own Pipeline)
+#### 2. Labelling (Own Pipeline)
 **Owner:** Colin
 
 > Colin: Consider making a Python script that can replicate some on mini-analysis labeling on raw data (to a degree)
 
 Build labelling tool 
 
-#### Creation of Training Dataset
+#### 3. Creation of Training Dataset
 **Owner:** James
 
 Take the raw recording, use the find peaks scipy tool to find all possible peaks. Use the true positives to create the true and false positive labelled dataset. This dataset should be pretty imbalanced, because we will not use any filtering or preprocessing to enhance the find peaks tool like was done in the first paper. 
 
 **To do:** Script this process using the initial data given by Hillary in the first paper and the already existing functions. 
 
-#### Prep Dataset for Experiments
+#### 4. Prep Dataset for Experiments
 **Owner:** Colin or James
 
 First we need to determine which method of approaching unbalanced datasets or data augmentation is best to deal with the unbalanced problem with this dataset. This can likely be done by testing methods on the original data, and comparing model performance. Once this is done, we can write a script that takes a full dataset and performs the necessary balancing, splitting and standardization. 
