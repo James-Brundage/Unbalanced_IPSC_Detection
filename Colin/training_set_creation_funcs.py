@@ -96,7 +96,7 @@ def align_peaks (lab_df, abf_path, width=10):
     dfff = dfff[dfff['Time Index'] > 2000]
     dfff = dfff[dfff['Time Index'] < len(y) - 2000]
 
-    # dfff['File_Name'] = [recording_name]*len(dfff)
+    # dfff['File_Name'] = recording_name
 
     return dfff
 
