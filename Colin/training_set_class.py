@@ -12,12 +12,19 @@ class TrainingData:
         labels = pd.read_excel(labels_path)
         print('Done.')
 
-        for i in tqdm.tqdm(range(len(os.listdir(self.abf_folder)))):
-            abf_name = list(set(labels['ABF File']))[i]
+        saved_abf = open("saved_abf.txt", "a")
 
-            if os.path.exists(f'/Users/colinmason/Desktop/yorglab/10K_pikl/{abf_name}.pkl'):
+        for idx, _ in enumerate(tqdm.tqdm(range(len(os.listdir(self.abf_folder))))):
+
+            abf_name = list(set(labels['ABF File']))[idx]
+
+            lines = saved_abf.readlines()
+            lines = [line.rstrip() for line in lines]
+
+            if abf_name in lines:
                 print(f'SKIPPED: {abf_name}')
                 continue
+
             else:
                 print(1)
                 # pth = os.path.join(self.abf_folder, abf_name)
@@ -26,6 +33,10 @@ class TrainingData:
                 # pkl_obj = open(f'/Users/colinmason/Desktop/yorglab/10K_pikl/{abf_name}.pkl', 'wb')
                 # pkl.dump(traces, pkl_obj)
                 # print(f'TO PKL: {abf_name}')
+
+            saved_abf.write(abf_name)
+
+        saved_abf.close()
 
     def erase_contents(self, dir_path):
 
