@@ -11,21 +11,16 @@ from scipy.signal import find_peaks
 import pyabf
 from bisect import bisect_left
 import tqdm
-from imblearn.over_sampling import SMOTE
-import matplotlib.pyplot as plt
 import os
 
-# Read in true positives from raw data
-
+# # Read in true positives from raw data
+# print('Reading')
 # df = pd.read_excel('/Users/jamesbrundage/Box/James data.xlsx')
-
-#
+# print('Done Reading')
+# #
 # path = '/Users/jamesbrundage/Box/Current 10K/7_29_2019 245 Continuous Export.abf'
 
-'''
-Does approximations for peak labels. 
-Used in the align peaks function. 
-'''
+
 def take_closest(myList, myNumber):
     """
     Assumes myList is sorted. Returns closest value to myNumber.
@@ -44,15 +39,14 @@ def take_closest(myList, myNumber):
     else:
         return before
 
-def align_peaks (lab_df, abf_path, width=10):
+def align_peaks (df, abf_path, recording_name, width=10):
 
     #Read .abf and grab info
     abf = pyabf.ABF(abf_path)
     x = abf.sweepX
     y = abf.sweepY
 
-    # testdf = df[df['ABF File'] == recording_name]
-    testdf = lab_df
+    testdf = df[df['ABF File'] == recording_name]
 
     # Grab the peak time indices and align with the index of the .abf
     peaks = testdf['Time (ms)'] * 10
@@ -96,11 +90,11 @@ def align_peaks (lab_df, abf_path, width=10):
     dfff = dfff[dfff['Time Index'] > 2000]
     dfff = dfff[dfff['Time Index'] < len(y) - 2000]
 
-    # dfff['File_Name'] = recording_name
+    dfff['File_Name'] = [recording_name]*len(dfff)
 
     return dfff
 
-def grab_traces(target_peaks_df, abf_path, limit=0):
+def grab_traces (target_peaks_df, abf_path, limit=0):
 
     # Read .abf and grab info
     abf = pyabf.ABF(abf_path)
@@ -124,19 +118,20 @@ def grab_traces(target_peaks_df, abf_path, limit=0):
 
     return rdf
 
-
-
-def main():
-    abf = r'/Users/colinmason/Box/2021Colin Mason/MarvinDiaz/Cerebellum - granule cells/2011_04_12_0003.abf'
-    labs_path = r'/Users/colinmason/Box/2021Colin Mason/Summer Mini Analysis Labelling/Abf Files Data Labelling.abf.xlsx'
-    labs_xlsx = pd.ExcelFile(labs_path)
-    ceb_0003_lab = labs_xlsx.parse('Crblm 0003 Unflitered')
-
-    peaks = align_peaks(ceb_0003_lab, abf)
-    traces = grab_traces(peaks, abf)
-
-
-
-
-if __name__ == "__main__":
-    main()
+#
+# # Grab the file locations
+# abf_folder = '/Users/jamesbrundage/Box/Current 10K/'
+# # abf_files = os.listdir(abf_folder)
+#
+# peak_dfs = []
+# # for abf in tqdm.tqdm(list(set(df['ABF File']))):
+# for i in tqdm.tqdm(range(0,3)):
+#     abf = list(set(df['ABF File']))[i]
+#
+#     pth = os.path.join(abf_folder, abf)
+#     peaks = align_peaks(df=df, recording_name=abf, abf_path=pth)
+#     peak_dfs.append(grab_traces(peaks, abf_path=pth, limit=0))
+#
+#
+# final_df = pd.concat(peak_dfs)
+# print(final_df)
